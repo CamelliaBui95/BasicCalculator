@@ -9,15 +9,16 @@ import java.util.Locale;
 public class Operand {
     private static final int PRECISION = 65;
     private static final int NB_DECIMAL = 10;
+    private static final Operand PERCENT = new Operand("100");
     NumberFormat numberFormat = NumberFormat.getInstance(Locale.FRENCH);
     private StringBuilder literal;
     public BigDecimal bigDecimal = new BigDecimal(0);
 
-    private String prevVal = "";
     public Operand(String val) {
         literal = new StringBuilder();
         numberFormat.setMaximumFractionDigits(NB_DECIMAL);
         literal.append(val);
+        myBigDecimalFormat();
     }
 
     public void init() {
@@ -33,10 +34,20 @@ public class Operand {
         literal.append(initialVal);
         myBigDecimalFormat();
     }
-
     public void clear() {
         literal.delete(0, literal.length());
         bigDecimal = new BigDecimal("0");
+    }
+
+    public void deleteDigit() {
+        if(literal.charAt(0) == '0')
+            return;
+
+        if(literal.length() == 1)
+            literal.deleteCharAt(0).append('0');
+        else literal.deleteCharAt(literal.length() - 1);
+
+        myBigDecimalFormat();
     }
 
     public void addDigit(String digit) {
@@ -60,19 +71,14 @@ public class Operand {
         bigDecimal = bigDecimal.add(other);
         formatNumericalLiteral();
     }
-
     public void subtractOther(BigDecimal other) {
-        System.out.println("this=" + bigDecimal);
-        System.out.println("other=" + other);
         bigDecimal = bigDecimal.subtract(other);
         formatNumericalLiteral();
     }
-
     public void multiplyOther(BigDecimal other) {
         bigDecimal = bigDecimal.multiply(other);
         formatNumericalLiteral();
     }
-
     public void divideOther(BigDecimal other) {
         try {
             bigDecimal = bigDecimal.divide(other, new MathContext(PRECISION, RoundingMode.HALF_UP));
@@ -81,7 +87,6 @@ public class Operand {
             setError();
         }
     }
-
     public void negate() {
         if(literal.charAt(0) == '0')
             return;
@@ -94,12 +99,17 @@ public class Operand {
         myBigDecimalFormat();
     }
 
+    public void getPercent() {
+        bigDecimal = bigDecimal.divide(PERCENT.bigDecimal, new MathContext(PRECISION, RoundingMode.HALF_UP));
+        formatNumericalLiteral();
+    }
+
     private void myBigDecimalFormat() {
         try {
             if(literal.isEmpty()) bigDecimal = new BigDecimal("0");
             else {
                 String bigDecStr = literal.toString().replace(",", ".");
-                bigDecimal = new BigDecimal(numberFormat.parse(bigDecStr).doubleValue());
+                bigDecimal = new BigDecimal(bigDecStr);
             }
         } catch(Exception e) {
             literal.delete(0, literal.length());

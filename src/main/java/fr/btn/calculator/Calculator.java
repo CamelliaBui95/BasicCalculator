@@ -19,6 +19,8 @@ public class Calculator {
     private int pointCount = 0;
     private boolean hasCalculated = false;
 
+    private String prevVal = "";
+
     public Calculator() {
         leftOperand = new Operand("0");
         rightOperand = new Operand("");
@@ -31,6 +33,8 @@ public class Calculator {
             case "CM" -> clearMemory();
             case "M" -> getMemory();
             case "+/-" -> negate();
+            case "<" -> deleteDigit();
+            case "%" -> getPercent();
             default -> defaultTouch(code);
         }
     }
@@ -88,51 +92,38 @@ public class Calculator {
     }
 
     private void divideOperation() {
-        if(rightOperand.isEmpty())
-            leftOperand.divideOther(leftOperand.bigDecimal);
-        else
-            leftOperand.divideOther(rightOperand.bigDecimal);
+        initRightOperand();
+        leftOperand.divideOther(rightOperand.bigDecimal);
 
         hasCalculated = true;
         clearRightOperand();
     }
-
     private void multiplyOperation() {
-        if(rightOperand.isEmpty())
-            leftOperand.multiplyOther(leftOperand.bigDecimal);
-        else
-            leftOperand.multiplyOther(rightOperand.bigDecimal);
+        initRightOperand();
+        leftOperand.multiplyOther(rightOperand.bigDecimal);
 
         hasCalculated = true;
         clearRightOperand();
     }
-
     private void addOperation() {
-        if(rightOperand.isEmpty())
-            leftOperand.addOther(leftOperand.bigDecimal);
-        else
-            leftOperand.addOther(rightOperand.bigDecimal);
+        initRightOperand();
+        leftOperand.addOther(rightOperand.bigDecimal);
 
         hasCalculated = true;
         clearRightOperand();
     }
-
     private void clearRightOperand() {
         operatorInMemory = operator;
         operator = "";
         rightOperand.clear();
     }
-
     private void subtractOperation() {
-        if(rightOperand.isEmpty())
-            leftOperand.subtractOther(leftOperand.bigDecimal);
-        else
-            leftOperand.subtractOther(rightOperand.bigDecimal);
+        initRightOperand();
+        leftOperand.subtractOther(rightOperand.bigDecimal);
 
         hasCalculated = true;
         clearRightOperand();
     }
-
     private void memorise() {
         if(!operator.isEmpty())
             calculate();
@@ -140,7 +131,6 @@ public class Calculator {
         memory = leftOperand.getLiteral();
         hasCalculated = true;
     }
-
     private void getMemory() {
         if(memory.isEmpty())
             return;
@@ -156,11 +146,17 @@ public class Calculator {
     private void reset() {
         operator = "";
         operatorInMemory = "";
+        prevVal = "";
         leftOperand.init();
         rightOperand.clear();
         hasCalculated = false;
     }
-
+    private void deleteDigit() {
+        if(!rightOperand.isEmpty())
+            rightOperand.deleteDigit();
+        else
+            leftOperand.deleteDigit();
+    }
     private void negate() {
         if(!rightOperand.isEmpty())
             rightOperand.negate();
@@ -168,6 +164,20 @@ public class Calculator {
             leftOperand.negate();
     }
 
+    private void getPercent() {
+        if(!rightOperand.isEmpty())
+            rightOperand.getPercent();
+        else leftOperand.getPercent();
+    }
+
+    private void initRightOperand() {
+        if(rightOperand.isEmpty()) {
+            if(prevVal.isEmpty())
+                prevVal = leftOperand.getLiteral();
+
+            rightOperand.init(prevVal);
+        }
+    }
     private boolean isOperator(String code) {
         return operators.contains(code);
     }

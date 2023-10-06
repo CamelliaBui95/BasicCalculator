@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="524.0" maxWidth="383.0" prefHeight="524.0" prefWidth="383.0" styleClass="mainContainer" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.btn.calculator.CalculatorController">
+<AnchorPane maxHeight="532.0" maxWidth="383.0" prefHeight="532.0" prefWidth="383.0" styleClass="mainContainer" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.btn.calculator.CalculatorController">
    <children>
       <Label fx:id="display" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="17.0" layoutY="22.0" prefHeight="80.0" prefWidth="350.0" styleClass="display">
          <font>
@@ -233,6 +233,16 @@
                </GridPane.margin>
             </Button>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOnButtonClick" styleClass="specialBtn" text="+/-" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOnButtonClick" styleClass="specialBtn" text="&lt;" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOnButtonClick" styleClass="specialBtn" text="\%" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
