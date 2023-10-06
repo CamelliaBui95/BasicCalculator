@@ -1,0 +1,27 @@
+.mainContainer {
+    -fx-background-color: #eaf6f6;
+}
+.display {
+    -fx-background-color: #fcfefe;
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+}
+
+button {
+    -fx-background-color: whitesmoke;
+    -fx-border-width: 1px solid;
+    -fx-border-color: black;
+}
+
+.specialBtn {
+    -fx-background-color: #66bfbf;
+}
+
+.operationBtn {
+    -fx-background-color: #f76b8a;
+}
+
+.symbolBtn {
+    -fx-background-color: #66bfbf;
+}
+
